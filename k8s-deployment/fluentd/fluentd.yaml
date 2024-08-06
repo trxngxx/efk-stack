@@ -2,35 +2,21 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: fluent-bit
-  namespace: kube-logging
+  namespace: logging
   labels:
-    k8s-app: fluent-bit-logging
-    version: v1
+    app: fluent-bit
 spec:
   selector:
     matchLabels:
-      k8s-app: fluent-bit-logging
+      app: fluent-bit
   template:
     metadata:
       labels:
-        k8s-app: fluent-bit-logging
-        version: v1
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "2020"
-        prometheus.io/path: /api/v1/metrics/prometheus
+        app: fluent-bit
     spec:
       containers:
       - name: fluent-bit
         image: fluent/fluent-bit:1.9.9
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 2020
-        env:
-        - name: FLUENT_ELASTICSEARCH_HOST
-          value: "elasticsearch"
-        - name: FLUENT_ELASTICSEARCH_PORT
-          value: "9200"
         volumeMounts:
         - name: varlog
           mountPath: /var/log
@@ -39,7 +25,6 @@ spec:
           readOnly: true
         - name: fluent-bit-config
           mountPath: /fluent-bit/etc/
-      terminationGracePeriodSeconds: 10
       volumes:
       - name: varlog
         hostPath:
@@ -50,15 +35,34 @@ spec:
       - name: fluent-bit-config
         configMap:
           name: fluent-bit-config
-      serviceAccountName: fluent-bit
-      tolerations:
-      - key: node-role.kubernetes.io/control-plane
-        operator: Exists
-        effect: NoSchedule
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
-      - operator: "Exists"
-        effect: "NoExecute"
-      - operator: "Exists"
-        effect: "NoSchedule"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: logging
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush        1
+        Log_Level    info
+        Daemon       off
+        Parsers_File parsers.conf
+
+    [INPUT]
+        Name             tail
+        Path             /var/log/containers/*.log
+        Parser           docker
+        Tag              kube.*
+        Refresh_Interval 5
+        Mem_Buf_Limit    5MB
+        Skip_Long_Lines  On
+
+    [OUTPUT]
+        Name            es
+        Match           *
+        Host            elasticsearch
+        Port            9200
+        Logstash_Format On
+        Replace_Dots    On
+        Retry_Limit     False
