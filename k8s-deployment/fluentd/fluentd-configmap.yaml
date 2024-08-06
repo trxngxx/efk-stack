@@ -15,6 +15,7 @@ data:
 
     @INCLUDE input-kubernetes.conf
     @INCLUDE output-elasticsearch.conf
+
   input-kubernetes.conf: |
     [INPUT]
         Name              tail
@@ -25,6 +26,7 @@ data:
         Mem_Buf_Limit     5MB
         Skip_Long_Lines   On
         Refresh_Interval  10
+        Exclude_Path /var/log/containers/*-fluentbit-*.log
 
   output-elasticsearch.conf: |
     [OUTPUT]
@@ -35,6 +37,8 @@ data:
         Logstash_Format On
         Logstash_Prefix fluent-bit
         Retry_Limit     False
+        Suppress_Type_Name On
+        Retry_Limit     False
 
   parsers.conf: |
     [PARSER]
@@ -43,3 +47,5 @@ data:
         Time_Key    time
         Time_Format %Y-%m-%dT%H:%M:%S.%L
         Time_Keep   On
+
+
