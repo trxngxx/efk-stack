@@ -28,7 +28,7 @@ spec:
         - containerPort: 2020
         env:
         - name: FLUENT_ELASTICSEARCH_HOST
-          value: "elasticsearch" # Thay đổi IP Elasticsearch của bạn tại đây nếu cần thiết
+          value: "elasticsearch" # Change IP Elasticsearch if needed
         - name: FLUENT_ELASTICSEARCH_PORT
           value: "9200"
         volumeMounts:
