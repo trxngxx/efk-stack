@@ -35,8 +35,8 @@ spec:
         image: docker.elastic.co/kibana/kibana:8.14.3
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            memory: "512Mi"
+            cpu: "1000m"
         env:
         - name: ELASTICSEARCH_URL
           value: http://elasticsearch:9200
