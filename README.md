@@ -14,11 +14,11 @@ kubectl apply -f /elk-stack//k8s-deployment/kibana/.
 ```
 2. Fluentd
 ```bash
-kubectl apply -f /elk-stack//k8s-deployment/fluentd-serviceaccount.yaml
-kubectl apply -f /elk-stack//k8s-deployment/fluentd-clusterrole.yaml
-kubectl apply -f /elk-stack//k8s-deployment/fluentd-clusterrolebinding.yaml
-kubectl apply -f /elk-stack//k8s-deployment/fluentd-configmap.yaml
-kubectl apply -f /elk-stack//k8s-deployment/fluentd.yaml
+kubectl apply -f /elk-stack//k8s-deployment/fluentd-serviceaccount.yml
+kubectl apply -f /elk-stack//k8s-deployment/fluentd-clusterrole.yml
+kubectl apply -f /elk-stack//k8s-deployment/fluentd-clusterrolebinding.yml
+kubectl apply -f /elk-stack//k8s-deployment/fluentd-configmap.yml
+kubectl apply -f /elk-stack//k8s-deployment/fluentd.yml
 ```
 ## Checking ##
 ```bash
