@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: fluentd-config
-  namespace: logging
+  namespace: kube-logging
 data:
   fluent.conf: |
     # Input plugins
