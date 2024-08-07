@@ -14,7 +14,9 @@ data:
       read_from_head true
       <parse>
         @type json
+        time_key time
         time_format %Y-%m-%dT%H:%M:%S.%NZ
+        keep_time_key true
       </parse>
     </source>
 
@@ -29,7 +31,7 @@ data:
       @type grep
       <regexp>
         key $.kubernetes.namespace_name
-        pattern /(default|kube-system|demo)/
+        pattern ^(default|kube-system|demo)$
       </regexp>
     </filter>
 

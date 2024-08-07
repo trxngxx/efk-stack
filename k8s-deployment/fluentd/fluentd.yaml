@@ -25,6 +25,10 @@ spec:
           value: "elasticsearch.logging.svc.cluster.local"
         - name: FLUENT_ELASTICSEARCH_PORT
           value: "9200"
+        - name: K8S_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
         volumeMounts:
         - name: varlog
           mountPath: /var/log
@@ -39,4 +43,3 @@ spec:
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
-
