@@ -21,6 +21,13 @@ spec:
         env:
         - name: ELASTICSEARCH_HOSTS
           value: http://elasticsearch.kube-logging.svc.cluster.local:9200
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 1Gi
+          requests:
+            cpu: 500m
+            memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
