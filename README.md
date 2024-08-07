@@ -5,7 +5,7 @@
 2. Containerd or docker setup
 
 ## Deploy ##
-1. Namespace and Elasticsearch
+1. Namespace and Elasticsearch, Kibana
 ```bash
 git clone https://github.com/trxngxx/efk-stack.git
 kubectl apply -f /elk-stack/common/.
